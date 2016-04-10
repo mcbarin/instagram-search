@@ -22,6 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'cmiizbbtp_*q=%j_7m)y=&+y-ljvlzeof@5lut*yg(d134vk5='
 
+client_id = 'c59cb5317709451d94b16f037da6f17a'
+client_secret = '13698cc910fc4c07a1af1e0b6307fe8b'
+website_url = 'http://www.molocateapp.com'
+redirect_url = 'http://127.0.0.1:8000'
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
