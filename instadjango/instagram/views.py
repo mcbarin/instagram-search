@@ -1,54 +1,53 @@
-import requests
 import json
+
+import requests
 from django.http import HttpResponse
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from instadjango import settings
 from .models import User
 
+
 def index(request):
     insta_url = 'https://api.instagram.com/oauth/authorize/?client_id=' + settings.client_id + '&redirect_uri=' + \
                 settings.redirect_url + '&response_type=code'
-    return HttpResponseRedirect(insta_url)
+    return HttpResponse('<a href=' + insta_url + '>Click Here</a>')
 
 
 def search(request):
-    if request.TYPE == 'GET':
+    if request.method == 'GET':
 
         return HttpResponse('asdadas')
-    elif request.TYPE == 'POST':
+    elif request.method == 'POST':
         # add form here with bootstrap
         return HttpResponse('results')
 
+
 def login(request):
-    code = request.query_params.get('code', False)
+    code = request.GET.getlist('code')[0]
+    print(code)
     if code is not False:
-
         payload = {'client_id': settings.client_id, 'client_secret': settings.client_secret,
-               'redirect_uri': settings.redirect_url, 'code': code, 'grant_type': 'authorization_code'}
+                   'redirect_uri': settings.redirect_url, 'code': code, 'grant_type': 'authorization_code'}
         req = requests.post('https://api.instagram.com/oauth/access_token', data=payload)
-
-        body_unicode = req.body.decode('utf-8')
+        body_unicode = req.text
         data = json.loads(body_unicode)
         user = data['user']
         user_dict = {
-        'access_token': data.get('access_token'),
-        'insta_id': user.get('id', ''),
-        'username': user.get('username', ''),
-        'picture': user.get('profile_picture', ''),
-        'website': user.get('website', ''),
-        'bio':  user.get('bio', ''),
-        'full_name' : user.get('full_name', '')}
+            'access_token': data.get('access_token'),
+            'insta_id': user.get('id', ''),
+            'username': user.get('username', ''),
+            'picture': user.get('profile_picture', ''),
+            'website': user.get('website', ''),
+            'bio': user.get('bio', ''),
+            'full_name': user.get('full_name', '')}
         user_object = User.objects.create(**user_dict)
-        return render(request,'/instagram/search/?user_id=' + user_object.insta_id)
+        print('user created')
+        return render(request, '/instagram/search/?user_id=' + user_object.insta_id)
     error = request.query_params.get('error', False)
     if error is not False:
-
         error_reason = request.query_params.get('error_reason', False)
         error_description = request.query_params.get('error_description', False)
-        return HttpResponse(error+error_reason+error_description)
-
-
+        return HttpResponse(error + error_reason + error_description)
 
     return HttpResponse('oldu la')
 
