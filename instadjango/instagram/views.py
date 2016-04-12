@@ -1,30 +1,22 @@
 import json
 
 import requests
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from instadjango import settings
-from .models import User
+from .forms import HashtagForm
 
 
 def index(request):
+    print("#### INDEX ####")
     insta_url = 'https://api.instagram.com/oauth/authorize/?client_id=' + settings.client_id + '&redirect_uri=' + \
-                settings.redirect_url + '&response_type=code'
-    return HttpResponse('<a href=' + insta_url + '>Click Here</a>')
-
-
-def search(request):
-    if request.method == 'GET':
-
-        return HttpResponse('asdadas')
-    elif request.method == 'POST':
-        # add form here with bootstrap
-        return HttpResponse('results')
+                settings.redirect_url + '&response_type=code&scope=public_content'
+    return render(request, 'instagram/index.html', {"insta_url": insta_url})
 
 
 def login(request):
+    print("######LOGIN######")
     code = request.GET.getlist('code')[0]
-    print(code)
     if code is not False:
         payload = {'client_id': settings.client_id, 'client_secret': settings.client_secret,
                    'redirect_uri': settings.redirect_url, 'code': code, 'grant_type': 'authorization_code'}
@@ -40,16 +32,49 @@ def login(request):
             'website': user.get('website', ''),
             'bio': user.get('bio', ''),
             'full_name': user.get('full_name', '')}
-        user_object = User.objects.create(**user_dict)
-        print('user created')
-        return render(request, '/instagram/search/?user_id=' + user_object.insta_id)
+        # if User.objects.filter(username=user_dict['username']).exists():
+        #     u = User.objects.get(username=user_dict['username'])
+        #     u.access_token = user_dict['access_token']
+        #     u.save()
+        # else:
+        #     User.objects.create(**user_dict)
+        request.session['access_token'] = user_dict['access_token']
+
+        return HttpResponseRedirect('/instagram/search/')
+
     error = request.query_params.get('error', False)
     if error is not False:
         error_reason = request.query_params.get('error_reason', False)
         error_description = request.query_params.get('error_description', False)
         return HttpResponse(error + error_reason + error_description)
-
     return HttpResponse('oldu la')
+
+
+def search(request):
+    if request.method == 'GET':
+        form = HashtagForm()
+        return render(request, 'instagram/search.html', {'form': form})
+    elif request.method == 'POST':
+        access_token = request.session['access_token']
+        form = HashtagForm(request.POST)
+        if form.is_valid():
+            hashtag = form.cleaned_data['search_box']
+            hashtag_clean = hashtag.replace('#', '')
+            return HttpResponseRedirect("/instagram/results?search=" + hashtag_clean)
+        else:
+            return form.errors
+
+
+def results(request):
+    hashtag = request.GET.getlist('search')[0]
+    access_token = request.session['access_token']
+    print(access_token)
+    hashtag_url = 'https://api.instagram.com/v1/tags/'+hashtag
+    params = {"access_token": access_token}
+    req = requests.get(hashtag_url, params=params)
+
+
+    return render(request, 'instagram/results.html', context=None)
 
 # https://api.instagram.com/oauth/authorize/?client_id=CLIENT-ID&redirect_uri=REDIRECT-URI&response_type=code
 # http://your-redirect-uri?code=CODE
