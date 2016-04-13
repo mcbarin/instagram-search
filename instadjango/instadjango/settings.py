@@ -27,6 +27,8 @@ client_secret = '13698cc910fc4c07a1af1e0b6307fe8b'
 website_url = 'http://www.molocateapp.com'
 redirect_url = 'http://127.0.0.1:8000/instagram/login'
 
+# public scope
+product_client_id = '8b197f774ece48b2b429ae1f542719a7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'instagram',
+    'bootstrap3',
 ]
 
 MIDDLEWARE_CLASSES = [
