@@ -3,8 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Search Results</title>
+    <style>
+        h1 {
+            text-align: center
+        }
+
+        button {
+            text-align: center;
+        }
+
+    </style>
 </head>
 <body>
-    <p>sonuclar burada olacak</p>
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+<h1>Results</h1>
+<br></br>
+<br></br>
+<br></br>
+
+<span class="image">
+        <table>
+            {% for photo in photos %}
+
+            {% if forloop.counter0|divisibleby:3 %}
+            <tr>{% endif %}
+                <th><a href="results.html"><img
+                        src="{{ photo.picture_url }}"
+                        style="width: 360px; margin-bottom: 5px; "> </a><br><a
+                        href="https://www.instagram.com/{{ photo.username }}">View Profile:
+                    {{ photo.username }}</a></th>
+                {% if forloop.counter|divisibleby:3 %}
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </span>
+<br></br>
+<br></br>
+
+{% buttons %}
+<a href="{{ next_url }}">
+    <button type="button" class="btn btn-primary btn-lg">Next Page</button>
+</a>
+
+{% endbuttons %}
+
+
+</center>
 </body>
 </html>

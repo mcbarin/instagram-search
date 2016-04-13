@@ -10,11 +10,11 @@
 </head>
 <body>
 
-    <h1>Instagram HashTag Search</h1>
     {% load bootstrap3 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     {% bootstrap_messages %}
+    <h1>Instagram HashTag Search</h1>
 
     <form id="search_form" method="post" action="/instagram/search/" class="form">
         {% csrf_token %}

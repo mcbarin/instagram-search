@@ -1,10 +1,21 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-class User(models.Model):
-    username = models.CharField(max_length=30)
-    access_token = models.CharField(max_length=100)
-    insta_id = models.CharField(max_length=20)
-    full_name = models.CharField(max_length=50)
-    bio = models.CharField(max_length=100)
-    website = models.CharField(max_length=50)
-    picture = models.CharField(max_length=200)
+
+class Photo(models.Model):
+    username = models.CharField(max_length=50)
+    profile_picture = models.URLField(max_length=250)
+    full_name = models.CharField(max_length=100)
+    picture_url = models.URLField(max_length=250)
+    post_id = models.CharField(max_length=100)
+    tags = ArrayField(models.CharField(max_length=50), blank=True)
+
+
+class HashTag(models.Model):
+    hashtag = models.CharField(max_length=50)
+    search_count = models.IntegerField(default=1)
+    related_tags = ArrayField(models.CharField(max_length=50), blank=True)
+
+    def increment_counter(self):
+        self.search_count += 1
+        self.save()
