@@ -2,38 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search Results</title>
+    <title>Instagram Stalker</title>
     <style>
         h1 {
             text-align: center
         }
 
-        button {
-            text-align: center;
+        image {
+            align: center;
         }
+
+        col {
+            align: right;
+        }
+
+
 
     </style>
 </head>
 <body>
-{% load bootstrap3 %}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-{% bootstrap_messages %}
-<h1>Results</h1>
-<br></br>
-<br></br>
-<br></br>
+<div>
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
+    <h1>Results</h1>
+    <br></br>
+    <br></br>
+    <br></br>
+
+    <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+        <div class="sidebar-module sidebar-module-inset">
+            <h2> Previous Hashtags: </h2>
+            <ol class="list-unstyled">
+                {% for hash in previous_hashtags %}
+                <b>
+                    <li><a href="/instagram/results?search={{ hash.hashtag }}"> #{{ hash.hashtag }}</a></li>
+                </b>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
 
 <span class="image">
-        <table>
+        <table align="center">
             {% for photo in photos %}
 
             {% if forloop.counter0|divisibleby:3 %}
             <tr>{% endif %}
-                <th><a href="results.html"><img
+                <th><a href="{{ photo.picture_url }}"><img
                         src="{{ photo.picture_url }}"
-                        style="width: 360px; margin-bottom: 5px; "> </a><br><a
-                        href="https://www.instagram.com/{{ photo.username }}">View Profile:
+                        style="width: 360px; margin-bottom: 20px; margin-right: 15px; "> </a><br><a
+                        href="https://www.instagram.com/{{ photo.username }}" style="text-align: center;">View Profile:
                     {{ photo.username }}</a></th>
                 {% if forloop.counter|divisibleby:3 %}
             </tr>
@@ -41,17 +61,18 @@
             {% endfor %}
         </table>
     </span>
-<br></br>
-<br></br>
+    <br></br>
+    <br></br>
 
-{% buttons %}
-<a href="{{ next_url }}">
-    <button type="button" class="btn btn-primary btn-lg">Next Page</button>
-</a>
+    {% buttons %}
+    <center>
+        <a href="{{ next_url }}">
+            <button type="button" class="btn btn-primary btn-lg">Next Page</button>
+        </a>
+    </center>
 
-{% endbuttons %}
+    {% endbuttons %}
 
 
-</center>
 </body>
 </html>

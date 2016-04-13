@@ -84,8 +84,7 @@ def results(request):
     data = json_data['data']
     try:
         hashtag_object = HashTag.objects.get(hashtag=hashtag)
-        if not max_tag_id:
-            hashtag_object.increment_counter()
+        hashtag_object.increment_counter()
     except:
         hashtag_object = HashTag.objects.create(hashtag=hashtag, related_tags=[])
 
