@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <title>Instagram Stalker</title>
     <style>
-        h1 {
-            text-align: center
-        }
-
         image {
             align: center;
         }
@@ -34,8 +30,11 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     {% bootstrap_messages %}
-    <h1>Results</h1>
+    <h1 style="text-align: center; color: red;">Results</h1>
     <br></br>
+    <br></br>
+    <br></br>
+    <div class="search_another"><center><p> <a href="/instagram/search/">Search Another Hashtag</a></p></center></div>
     <br></br>
     <br></br>
     <div class="related_tags" style="text-align: center">
@@ -46,7 +45,7 @@
         {% endfor %}
         </p>
     </div>
-    <div class="search_another"><center><p> <a href="/instagram/search/">Search Another Hashtag</a></p></center></div>
+
     <div class="row" align="center" >
     <div class="col-sm-3 col-sm-offset-1 blog-sidebar" style="float: right;">
         <div class="sidebar-module sidebar-module-inset">
@@ -60,7 +59,7 @@
             </ol>
         </div>
     </div>
-<div class="images" style="float: center; margin-left: 20px">
+<div class="images" style="margin-left: 20px">
 <span class="image">
         <table align="center">
             {% for photo in photos %}
@@ -69,7 +68,7 @@
             <tr>{% endif %}
                 <th><a href="{{ photo.picture_url }}"><img
                         src="{{ photo.picture_url }}"
-                        style="width: 300px; margin-bottom: 20px; margin-right: 15px; "> </a><br><a
+                        style="width: 300px; margin-left: 15px; margin-bottom: 20px; margin-right: 15px; "> </a><br><a
                         href="https://www.instagram.com/{{ photo.username }}" style="text-align: center;">Profile:
                     {{ photo.username }}</a></th>
                 {% if forloop.counter|divisibleby:3 %}
