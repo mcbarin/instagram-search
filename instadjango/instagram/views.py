@@ -86,7 +86,7 @@ def results(request):
         hashtag_object = HashTag.objects.get(hashtag=hashtag)
         hashtag_object.increment_counter()
     except:
-        hashtag_object = HashTag.objects.create(hashtag=hashtag, related_tags=[])
+        hashtag_object = HashTag.objects.create(hashtag=hashtag)
 
     photo_template = []
 
@@ -102,6 +102,7 @@ def results(request):
             except:
                 object = Photo.objects.create(**photo_dict)
 
+            hashtag_object.add_related_tags(photo_dict['tags'])
             photo_template.append(object)
             # do something with object.
         else:
@@ -109,7 +110,7 @@ def results(request):
 
     return render(request, 'instagram/results.html',
                   context={"photos": photo_template, "next_url": next_url,
-                           "previous_hashtags": HashTag.objects.all().order_by('-search_count')[:10]})
+                           "previous_hashtags": HashTag.objects.all().order_by('-search_count')[:10], "related_tag": hashtag_object.related_tag.all().order_by('-count')[:20]})
 
 #
 # https://api.instagram.com/oauth/authorize/?client_id=CLIENT-ID&redirect_uri=REDIRECT-URI&response_type=code

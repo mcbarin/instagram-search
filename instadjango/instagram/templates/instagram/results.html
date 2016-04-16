@@ -21,6 +21,11 @@
             size: 18px;
         }
 
+        h3 {
+            align: center;
+            size: 18px;
+        }
+
     </style>
 </head>
 <body>
@@ -33,6 +38,14 @@
     <br></br>
     <br></br>
     <br></br>
+    <div class="related_tags" style="text-align: center">
+        <h3>Related Hashtags</h3>
+        <p>
+        {% for tag in related_tag %}
+            <a href="/instagram/results/?search={{ tag.tag }}"> #{{ tag.tag }}</a>
+        {% endfor %}
+        </p>
+    </div>
     <div class="search_another"><center><p> <a href="/instagram/search/">Search Another Hashtag</a></p></center></div>
     <div class="row" align="center" >
     <div class="col-sm-3 col-sm-offset-1 blog-sidebar" style="float: right;">
