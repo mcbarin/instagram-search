@@ -20,18 +20,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'cmiizbbtp_*q=%j_7m)y=&+y-ljvlzeof@5lut*yg(d134vk5='
+SECRET_KEY = ''
 
-client_id = 'c59cb5317709451d94b16f037da6f17a'
-client_secret = '13698cc910fc4c07a1af1e0b6307fe8b'
-website_url = 'http://www.molocateapp.com'
-redirect_url = 'http://127.0.0.1:8000/instagram/login'
+client_id = ''
+client_secret = ''
+website_url = ''
+redirect_url = ''
 
-# public scope
-product_client_id = '8b197f774ece48b2b429ae1f542719a7'
+# public scope'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -89,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'kafkef231',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '5432',
     }
